@@ -9,44 +9,57 @@ import com.example.appdenotas.model.Nota
 
 class DetalleNotaActivity : AppCompatActivity() {
 
-    private lateinit var etTitulo: EditText
-    private lateinit var etContenido: EditText
-    private lateinit var btnGuardar: Button
-    private lateinit var btnEliminar: Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detalle_nota)
 
-        etTitulo = findViewById(R.id.etTitulo)
-        etContenido = findViewById(R.id.etContenido)
-        btnGuardar = findViewById(R.id.btnGuardar)
-        btnEliminar = findViewById(R.id.btnEliminar)
+        // Vincular vistas
+        val etTitulo = findViewById<EditText>(R.id.etTitulo)
+        val etContenido = findViewById<EditText>(R.id.etContenido)
+        val btnGuardar = findViewById<Button>(R.id.btnGuardar)
+        val btnEliminar = findViewById<Button>(R.id.btnEliminar)
 
-        // Guardar la nueva nota
-        btnGuardar.setOnClickListener {
-            val titulo = etTitulo.text.toString().trim()
-            val contenido = etContenido.text.toString().trim()
+        val notaRecibida = intent.getSerializableExtra("nota") as? Nota
 
-            if (titulo.isNotEmpty()) {
+        if (notaRecibida != null) {
+            // Editar nota
+            etTitulo.setText(notaRecibida.titulo)
+            etContenido.setText(notaRecibida.contenido)
+
+            btnGuardar.setOnClickListener {
+                val notaActualizada = Nota(
+                    id = notaRecibida.id,
+                    titulo = etTitulo.text.toString(),
+                    contenido = etContenido.text.toString(),
+                    fechaCreacion = System.currentTimeMillis()
+                )
+                NotasManager.actualizarNota(notaActualizada)
+                finish()
+            }
+
+            btnEliminar.setOnClickListener {
+                NotasManager.eliminarNota(notaRecibida.id)
+                finish()
+            }
+
+        } else {
+            // Crear nueva nota
+            btnEliminar.isEnabled = false
+
+            btnGuardar.setOnClickListener {
                 val nuevaNota = Nota(
                     id = System.currentTimeMillis(),
-                    titulo = titulo,
-                    contenido = contenido
+                    titulo = etTitulo.text.toString(),
+                    contenido = etContenido.text.toString(),
+                    fechaCreacion = System.currentTimeMillis()
                 )
-
                 NotasManager.agregarNota(nuevaNota)
-                Toast.makeText(this, "Nota guardada", Toast.LENGTH_SHORT).show()
                 finish()
-            } else {
-                Toast.makeText(this, "El título no puede estar vacío", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-        // Eliminar no tiene sentido en una nota nueva
-        btnEliminar.setOnClickListener {
-            Toast.makeText(this, "No hay nota para eliminar", Toast.LENGTH_SHORT).show()
-        }
     }
+
+
+
+
 }

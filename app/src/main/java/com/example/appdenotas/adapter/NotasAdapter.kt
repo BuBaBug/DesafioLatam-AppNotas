@@ -10,9 +10,9 @@ import com.example.appdenotas.model.Nota
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NotasAdapter(private var listaNotas: List<Nota>) : RecyclerView.Adapter<NotasAdapter.NotaViewHolder>() {
+class NotasAdapter(private var listaNotas: List<Nota>, private val onNotaClick: (Nota) -> Unit) : RecyclerView.Adapter<NotasAdapter.NotaViewHolder>() {
 
-    class NotaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class NotaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitulo: TextView = itemView.findViewById(R.id.tvTitulo)
         val tvFecha: TextView = itemView.findViewById(R.id.tvFecha)
     }
@@ -26,10 +26,12 @@ class NotasAdapter(private var listaNotas: List<Nota>) : RecyclerView.Adapter<No
         val nota = listaNotas[position]
         holder.tvTitulo.text = nota.titulo
 
-        // Formatear la fecha de creación a un formato legible
         val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-        val fechaFormateada = sdf.format(Date(nota.fechaCreacion))
-        holder.tvFecha.text = fechaFormateada
+        holder.tvFecha.text = sdf.format(Date(nota.fechaCreacion))
+
+        holder.itemView.setOnClickListener {
+            onNotaClick(nota) // aquí se llama el callback con la nota clickeada
+        }
     }
 
     override fun getItemCount(): Int = listaNotas.size
