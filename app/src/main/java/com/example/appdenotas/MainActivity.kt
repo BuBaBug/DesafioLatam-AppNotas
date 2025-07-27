@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appdenotas.adapter.NotasAdapter
 import com.example.appdenotas.data.NotasManager
 import com.example.appdenotas.model.Nota
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.appcompat.widget.SearchView
 import com.google.android.material.button.MaterialButton
 
@@ -19,21 +18,22 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var listaNotasOriginal: List<Nota>
     private lateinit var adapter: NotasAdapter
-    private lateinit var notasAdapter: NotasAdapter
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val searchView = findViewById<androidx.appcompat.widget.SearchView>(R.id.searchView)
-
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerTareas)
         val fabAgregarNota: MaterialButton = findViewById(R.id.fabAgregarNota)
 
         listaNotasOriginal = NotasManager.obtenerNotas()
-        adapter = NotasAdapter(listaNotasOriginal)
+
+        adapter = NotasAdapter(listaNotasOriginal) { notaSeleccionada ->
+            val intent = Intent(this, DetalleNotaActivity::class.java)
+            intent.putExtra("nota", notaSeleccionada)  // Nota debe implementar Serializable
+            startActivity(intent)
+        }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -46,10 +46,11 @@ class MainActivity : AppCompatActivity() {
         })
 
         fabAgregarNota.setOnClickListener {
-            startActivity(Intent(this, DetalleNotaActivity::class.java))
+            val intent = Intent(this, DetalleNotaActivity::class.java)
+            startActivity(intent)
         }
-    }
 
+    }
 
     override fun onResume() {
         super.onResume()
@@ -57,11 +58,8 @@ class MainActivity : AppCompatActivity() {
         adapter.actualizarLista(listaNotasOriginal)
     }
 
-
-
-
     private fun notasFiltradas(texto: String?) {
-        val textoBusqueda = texto ?: ""  // Si texto es null, usar cadena vacía
+        val textoBusqueda = texto ?: ""
 
         val notasFiltradas = listaNotasOriginal.filter {
             it.titulo.contains(textoBusqueda, ignoreCase = true) ||
@@ -69,10 +67,7 @@ class MainActivity : AppCompatActivity() {
         }
         adapter.actualizarLista(notasFiltradas)
 
-        // Mostrar mensaje si no hay resultados
         val tvSinResultados = findViewById<TextView>(R.id.tvSinResultados)
         tvSinResultados.visibility = if (notasFiltradas.isEmpty()) View.VISIBLE else View.GONE
     }
-
-
 }
