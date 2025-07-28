@@ -30,7 +30,7 @@ class NotasAdapter(private var listaNotas: List<Nota>, private val onNotaClick: 
         holder.tvFecha.text = sdf.format(Date(nota.fechaCreacion))
 
         holder.itemView.setOnClickListener {
-            onNotaClick(nota) // aquí se llama el callback con la nota clickeada
+            onNotaClick(nota)
         }
     }
 

@@ -6,14 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.appdenotas.data.NotasManager
 import com.example.appdenotas.model.Nota
 
-
 class DetalleNotaActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detalle_nota)
 
-        // Vincular vistas
         val etTitulo = findViewById<EditText>(R.id.etTitulo)
         val etContenido = findViewById<EditText>(R.id.etContenido)
         val btnGuardar = findViewById<Button>(R.id.btnGuardar)
@@ -22,7 +20,6 @@ class DetalleNotaActivity : AppCompatActivity() {
         val notaRecibida = intent.getSerializableExtra("nota") as? Nota
 
         if (notaRecibida != null) {
-            // Editar nota
             etTitulo.setText(notaRecibida.titulo)
             etContenido.setText(notaRecibida.contenido)
 
@@ -43,7 +40,6 @@ class DetalleNotaActivity : AppCompatActivity() {
             }
 
         } else {
-            // Crear nueva nota
             btnEliminar.isEnabled = false
 
             btnGuardar.setOnClickListener {

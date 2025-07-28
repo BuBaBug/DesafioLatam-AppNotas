@@ -10,7 +10,6 @@
     android:layout_height="match_parent"
     android:gravity="center">
 
-    <!--Titulo de la app-->
     <TextView
         android:text="App de Notas"
         android:fontFamily="@font/poppins_family"
@@ -21,7 +20,6 @@
         android:layout_marginBottom="8dp"
         android:gravity="center" />
 
-    <!--Card Principal-->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +34,6 @@
             android:layout_height="match_parent"
             android:padding="24dp">
 
-            <!--Titulo en la card-->
             <TextView
                 android:text="Mis notas"
                 android:fontFamily="@font/poppins_family"
@@ -53,18 +50,12 @@
                 android:layout_marginBottom="4dp"
                 android:orientation="horizontal">
 
-                <!-- Buscador -->
                 <include
                     layout="@layout/toolbar_busqueda"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-
-
-
-
             </LinearLayout>
 
-            <!-- Card de lista de notas-->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -90,7 +81,6 @@
                         android:visibility="gone"
                         android:padding="8dp"/>
 
-                    <!--Card de notas-->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerTareas"
                         android:layout_width="match_parent"
@@ -98,8 +88,8 @@
                         android:fontFamily="@font/poppins_family"
                         android:paddingTop="8dp"/>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
@@ -110,7 +100,6 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-        <!-- Botón flotante para nueva nota -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/fabAgregarNota"
             android:layout_width="60dp"
@@ -122,7 +111,6 @@
             app:cornerRadius="24dp"
             app:backgroundTint="#093FB4"
             app:elevation="6dp" />
-
     </LinearLayout>
 
 </LinearLayout>
