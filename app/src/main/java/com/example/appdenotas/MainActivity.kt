@@ -13,7 +13,6 @@ import com.example.appdenotas.model.Nota
 import androidx.appcompat.widget.SearchView
 import com.google.android.material.button.MaterialButton
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var listaNotasOriginal: List<Nota>
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         adapter = NotasAdapter(listaNotasOriginal) { notaSeleccionada ->
             val intent = Intent(this, DetalleNotaActivity::class.java)
-            intent.putExtra("nota", notaSeleccionada)  // Nota debe implementar Serializable
+            intent.putExtra("nota", notaSeleccionada)
             startActivity(intent)
         }
         recyclerView.adapter = adapter
